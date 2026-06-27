@@ -121,35 +121,105 @@ topBtn.addEventListener("click", () => {
 });
 
 // =====================================
-// Contact Form to WhatsApp
+// Booking + UPI Payment
 // =====================================
 
 const bookingForm = document.getElementById("bookingForm");
+const payNow = document.getElementById("payNow");
+const paidBtn = document.getElementById("paidBtn");
 
-if (bookingForm) {
+// Proceed to Payment
+if (payNow) {
 
-    bookingForm.addEventListener("submit", function(e){
+    payNow.addEventListener("click", function (e) {
 
         e.preventDefault();
 
-        const name = document.getElementById("name").value;
-        const email = document.getElementById("email").value;
-        const mobile = document.getElementById("mobile").value;
-        const event = document.getElementById("event").value;
-        const date = document.getElementById("date").value;
-        const message = document.getElementById("message").value;
+        const booking = {
+
+            name: document.getElementById("name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            mobile: document.getElementById("mobile").value.trim(),
+            event: document.getElementById("event").value,
+            date: document.getElementById("date").value,
+            message: document.getElementById("message").value.trim()
+
+        };
+
+        // Validation
+        if (
+            booking.name === "" ||
+            booking.email === "" ||
+            booking.mobile === "" ||
+            booking.event === ""
+        ) {
+
+            alert("Please fill all required details first.");
+            return;
+
+        }
+
+      // Save booking details
+localStorage.setItem("bookingData", JSON.stringify(booking));
+
+const paymentCard = document.querySelector(".payment-card");
+
+if (paymentCard) {
+
+    paymentCard.style.display = "block";
+
+    paymentCard.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+if (paidBtn) {
+
+    paidBtn.style.display = "block";
+
+}
+        // Open UPI App
+        const upi =
+            "upi://pay?pa=9934730101@ybl&pn=PK%20Videography&am=500&cu=INR&tn=Advance%20Booking";
+
+        window.location.href = upi;
+
+    });
+
+}
+
+// I've Paid Button
+if (paidBtn) {
+
+    paidBtn.addEventListener("click", function () {
+
+        const booking = JSON.parse(localStorage.getItem("bookingData"));
+
+        if (!booking) {
+
+            alert("Booking details not found.");
+            return;
+
+        }
 
         const whatsappMessage =
 `Hello PK Videography!
 
-Name: ${name}
-Email: ${email}
-Mobile: ${mobile}
-Event: ${event}
-Date: ${date}
-Message: ${message}`;
+Payment Completed ✅
 
-        const url = `https://api.whatsapp.com/send?phone=919934730101&text=${encodeURIComponent(whatsappMessage)}`;
+Name: ${booking.name}
+Email: ${booking.email}
+Mobile: ${booking.mobile}
+Event: ${booking.event}
+Date: ${booking.date}
+Message: ${booking.message}
+
+I have paid ₹500 advance.
+Please confirm my booking.`;
+
+        const url =
+`https://wa.me/919934730101?text=${encodeURIComponent(whatsappMessage)}`;
 
         window.open(url, "_blank");
 
