@@ -301,15 +301,15 @@
 
         </div>
 
-        <form class="contact-form">
+        <form class="contact-form" id="bookingForm">
 
-            <input type="text" placeholder="Full Name" required>
+           <input type="text" id="name" placeholder="Full Name" required>
 
-            <input type="email" placeholder="Email Address" required>
+           <input type="email" id="email" placeholder="Email Address" required>
 
-            <input type="tel" placeholder="Mobile Number" required>
+           <input type="tel" id="mobile" placeholder="Mobile Number" required>
 
-            <select required>
+           <select id="event" required>
                 <option value="">Select Event Type</option>
                 <option>Wedding</option>
                 <option>Pre Wedding</option>
@@ -318,9 +318,9 @@
                 <option>Other</option>
             </select>
 
-            <input type="date">
+            <input type="date" id="date">
 
-            <textarea rows="5" placeholder="Tell us about your event..."></textarea>
+            <textarea id="message" rows="5" placeholder="Tell us about your event..."></textarea>
 
             <button type="submit" class="btn">
                 Book Now
@@ -409,7 +409,7 @@
 
 <!-- ================= WHATSAPP BUTTON ================= -->
 
-<a href="https://wa.me/919934730101"
+<a href="https://wa.me/919934730101?text=Hello%20PK%20Videography!%20%F0%9F%91%8B%0A%0AI%20would%20like%20to%20book%20a%20shoot.%0A%0AName:%0AMobile:%0AEvent%20Type:%0AEvent%20Date:%0ALocation:%0AMessage:"
    class="whatsapp-btn"
    target="_blank">
 

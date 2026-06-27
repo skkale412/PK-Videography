@@ -119,3 +119,40 @@ topBtn.addEventListener("click", () => {
     });
 
 });
+
+// =====================================
+// Contact Form to WhatsApp
+// =====================================
+
+const bookingForm = document.getElementById("bookingForm");
+
+if (bookingForm) {
+
+    bookingForm.addEventListener("submit", function(e){
+
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const mobile = document.getElementById("mobile").value;
+        const event = document.getElementById("event").value;
+        const date = document.getElementById("date").value;
+        const message = document.getElementById("message").value;
+
+        const whatsappMessage =
+`Hello PK Videography!
+
+Name: ${name}
+Email: ${email}
+Mobile: ${mobile}
+Event: ${event}
+Date: ${date}
+Message: ${message}`;
+
+        const url = `https://api.whatsapp.com/send?phone=919934730101&text=${encodeURIComponent(whatsappMessage)}`;
+
+        window.open(url, "_blank");
+
+    });
+
+}
