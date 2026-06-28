@@ -180,8 +180,8 @@ if (paidBtn) {
 
 }
         // Open UPI App
-        const upi =
-            "upi://pay?pa=9934730101@ybl&pn=PK%20Videography&am=500&cu=INR&tn=Advance%20Booking";
+       const upi =
+"upi://pay?pa=9934730101@ybl&pn=PARTH%20HANUMANT%20KALE&am=500&cu=INR";
 
         window.location.href = upi;
 
