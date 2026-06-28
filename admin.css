@@ -1,0 +1,118 @@
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+
+}
+
+body{
+
+background:#111;
+color:white;
+padding:40px;
+
+}
+
+.container{
+
+max-width:1200px;
+margin:auto;
+
+}
+
+h1{
+
+text-align:center;
+margin-bottom:40px;
+
+}
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:20px;
+margin-bottom:40px;
+
+}
+
+.card{
+
+background:#1c1c1c;
+padding:25px;
+border-radius:15px;
+text-align:center;
+
+}
+
+.card h2{
+
+font-size:40px;
+color:#f4c430;
+
+}
+
+.booking{
+
+background:#1b1b1b;
+padding:20px;
+margin-bottom:20px;
+border-radius:15px;
+line-height:2;
+
+}
+
+button{
+
+padding:10px 20px;
+margin-right:10px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+
+}
+
+.accept{
+
+background:#28a745;
+color:white;
+
+}
+
+.reject{
+
+background:#dc3545;
+color:white;
+
+}
+
+.delete{
+
+background:#555;
+color:white;
+
+}
+
+.admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:40px;
+}
+
+#logoutBtn{
+    background:#d4af37;
+    color:#000;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+#logoutBtn:hover{
+    opacity:0.9;
+}

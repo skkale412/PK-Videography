@@ -1,3 +1,26 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    where
+} from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyB9Fr0Acu2FU0rjOIwySJY65kLIp-r7OLk",
+    authDomain: "pk-videography.firebaseapp.com",
+    projectId: "pk-videography",
+    storageBucket: "pk-videography.firebasestorage.app",
+    messagingSenderId: "104934212977",
+    appId: "1:104934212977:web:3e65632ef6d3284997a2d0"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 // =====================================
 // PK Videography JavaScript
 // =====================================
@@ -131,14 +154,14 @@ const paidBtn = document.getElementById("paidBtn");
 // Proceed to Payment
 if (payNow) {
 
-    payNow.addEventListener("click", function (e) {
+    payNow.addEventListener("click", async function (e) {
 
         e.preventDefault();
 
         const booking = {
 
             name: document.getElementById("name").value.trim(),
-            email: document.getElementById("email").value.trim(),
+            location: document.getElementById("location").value.trim(),
             mobile: document.getElementById("mobile").value.trim(),
             event: document.getElementById("event").value,
             date: document.getElementById("date").value,
@@ -146,10 +169,27 @@ if (payNow) {
 
         };
 
+        const bookingRef = collection(db, "bookings");
+
+const existingBooking = query(
+    bookingRef,
+    where("date", "==", booking.date)
+);
+
+const snapshot = await getDocs(existingBooking);
+
+if (!snapshot.empty) {
+
+    alert("Sorry! This date is already booked.\nPlease choose another date.");
+
+    return;
+
+}
+
         // Validation
         if (
             booking.name === "" ||
-            booking.email === "" ||
+            booking.location === "" ||
             booking.mobile === "" ||
             booking.event === ""
         ) {
@@ -159,8 +199,15 @@ if (payNow) {
 
         }
 
-      // Save booking details
+// Save locally
 localStorage.setItem("bookingData", JSON.stringify(booking));
+
+      // Save booking details
+await addDoc(collection(db, "bookings"), {
+    ...booking,
+    status: "Pending",
+    createdAt: new Date()
+});
 
 const paymentCard = document.querySelector(".payment-card");
 
@@ -209,7 +256,7 @@ if (paidBtn) {
 Payment Completed ✅
 
 Name: ${booking.name}
-Email: ${booking.email}
+Location: ${booking.location}
 Mobile: ${booking.mobile}
 Event: ${booking.event}
 Date: ${booking.date}
