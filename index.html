@@ -298,7 +298,19 @@
 
            <input type="text" id="name" placeholder="Full Name" required>
 
-           <input type="text" id="location" placeholder="Event Location (City/Area)" required>
+           <div class="input-box location-box">
+
+    <input
+        type="text"
+        id="location"
+        placeholder="Search Location / Village / Area"
+        autocomplete="off"
+        required
+    >
+
+    <div id="locationSuggestions" class="location-suggestions"></div>
+
+</div>
 
            <input type="tel" id="mobile" placeholder="Mobile Number" required>
 

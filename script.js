@@ -6,7 +6,8 @@ import {
     addDoc,
     getDocs,
     query,
-    where
+    where,
+    orderBy
 } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -20,6 +21,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+
+
+const locationInput = document.getElementById("location");
+const suggestionBox = document.getElementById("locationSuggestions");
+
+let locations = [];
 
 // =====================================
 // PK Videography JavaScript
@@ -140,6 +148,85 @@ topBtn.addEventListener("click", () => {
         behavior:"smooth"
 
     });
+
+});
+
+async function loadLocations(){
+
+    const snapshot = await getDocs(collection(db,"locations"));
+
+    snapshot.forEach((doc)=>{
+
+        const data = doc.data();
+
+locations.push({
+    village: data.village,
+    taluka: data.taluka,
+    district: data.district
+});
+
+    });
+
+}
+
+loadLocations();
+
+locationInput.addEventListener("input",()=>{
+
+    const value = locationInput.value.toLowerCase();
+
+    suggestionBox.innerHTML="";
+
+    if(value===""){
+
+        suggestionBox.style.display="none";
+
+        return;
+
+    }
+
+    const filtered = locations.filter(location=>{
+
+    return (
+        location.village.toLowerCase().includes(value) ||
+        location.taluka.toLowerCase().includes(value) ||
+        location.district.toLowerCase().includes(value)
+    );
+
+});
+
+    filtered.slice(0,8).forEach(location=>{
+
+        const div=document.createElement("div");
+
+        div.innerText =
+`📍 ${location.village}, ${location.taluka}, ${location.district}`;
+
+        div.onclick=()=>{
+
+            locationInput.value =
+`${location.village}, ${location.taluka}`;
+
+            suggestionBox.style.display="none";
+
+        };
+
+        suggestionBox.appendChild(div);
+
+    });
+
+    suggestionBox.style.display=
+        filtered.length ? "block":"none";
+
+});
+
+document.addEventListener("click",(e)=>{
+
+    if(!e.target.closest(".location-box")){
+
+        suggestionBox.style.display="none";
+
+    }
 
 });
 

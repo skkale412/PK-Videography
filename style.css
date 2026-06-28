@@ -1319,3 +1319,59 @@ grid-column:1;
     transform:translateY(-3px);
     box-shadow:0 10px 25px rgba(212,175,55,.4);
 }
+
+/* ===========================
+   Searchable Location
+=========================== */
+
+.location-box{
+    position:relative;
+}
+
+.location-suggestions{
+
+    position:absolute;
+
+    top:100%;
+
+    left:0;
+
+    width:100%;
+
+    background:#1d1d1d;
+
+    border:1px solid #333;
+
+    border-radius:12px;
+
+    max-height:250px;
+
+    overflow-y:auto;
+
+    display:none;
+
+    z-index:999;
+
+    margin-top:8px;
+
+}
+
+.location-suggestions div{
+
+    padding:14px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    border-bottom:1px solid #2b2b2b;
+
+}
+
+.location-suggestions div:hover{
+
+    background:#d4af37;
+
+    color:#000;
+
+}
