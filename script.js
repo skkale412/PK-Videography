@@ -236,7 +236,6 @@ document.addEventListener("click",(e)=>{
 
 const bookingForm = document.getElementById("bookingForm");
 const payNow = document.getElementById("payNow");
-const paidBtn = document.getElementById("paidBtn");
 
 // Proceed to Payment
 if (payNow) {
@@ -287,32 +286,11 @@ if (!snapshot.empty) {
         }
 
 // Save locally
-localStorage.setItem("bookingData", JSON.stringify(booking));
+
 
       // Save booking details
-await addDoc(collection(db, "bookings"), {
-    ...booking,
-    status: "Pending",
-    createdAt: new Date()
-});
 
-const paymentCard = document.querySelector(".payment-card");
 
-if (paymentCard) {
-
-    paymentCard.style.display = "block";
-
-    paymentCard.scrollIntoView({
-        behavior: "smooth"
-    });
-
-}
-
-if (paidBtn) {
-
-    paidBtn.style.display = "block";
-
-}
         // Create Razorpay Order
 
 const response = await fetch("/.netlify/functions/create-order", {
@@ -333,6 +311,11 @@ const response = await fetch("/.netlify/functions/create-order", {
 
 });
 
+if (!response.ok) {
+    alert("Unable to create payment order.");
+    return;
+}
+
 const order = await response.json();
 
 const options = {
@@ -351,11 +334,45 @@ const options = {
 
     handler: async function (response) {
 
-        alert("Payment Successful!");
+    // Save booking after successful payment
+    await addDoc(collection(db, "bookings"), {
 
-        window.open(url, "_blank");
+        ...booking,
 
-    },
+        paymentId: response.razorpay_payment_id,
+
+        orderId: response.razorpay_order_id,
+
+        status: "Paid",
+
+        createdAt: new Date()
+
+    });
+
+    const whatsappMessage =
+`Hello PK Videography!
+
+Payment Successful ✅
+
+Name: ${booking.name}
+Location: ${booking.location}
+Mobile: ${booking.mobile}
+Event: ${booking.event}
+Date: ${booking.date}
+Message: ${booking.message}
+
+Payment ID: ${response.razorpay_payment_id}
+
+Please confirm my booking.`;
+
+    const whatsappURL =
+`https://wa.me/919934730101?text=${encodeURIComponent(whatsappMessage)}`;
+
+    alert("Payment Successful!");
+
+    window.open(whatsappURL, "_blank");
+
+},
 
     prefill: {
 
@@ -369,11 +386,32 @@ const options = {
 
         color: "#d4af37"
 
-    }
+    },
 
+modal: {
+    ondismiss: function () {
+
+        console.log("Payment cancelled");
+
+        alert("Payment cancelled. Your booking has not been saved.");
+
+    }
+}
+    
 };
 
 const razor = new Razorpay(options);
+
+razor.on("payment.failed", function (response) {
+
+    console.error(response.error);
+
+    alert(
+        "Payment Failed!\n\nReason: " +
+        response.error.description
+    );
+
+});
 
 razor.open();
 
@@ -381,40 +419,3 @@ razor.open();
 
 }
 
-// I've Paid Button
-if (paidBtn) {
-
-    paidBtn.addEventListener("click", function () {
-
-        const booking = JSON.parse(localStorage.getItem("bookingData"));
-
-        if (!booking) {
-
-            alert("Booking details not found.");
-            return;
-
-        }
-
-        const whatsappMessage =
-`Hello PK Videography!
-
-Payment Completed ✅
-
-Name: ${booking.name}
-Location: ${booking.location}
-Mobile: ${booking.mobile}
-Event: ${booking.event}
-Date: ${booking.date}
-Message: ${booking.message}
-
-I have paid ₹500 advance.
-Please confirm my booking.`;
-
-        const url =
-`https://wa.me/919934730101?text=${encodeURIComponent(whatsappMessage)}`;
-
-        window.open(url, "_blank");
-
-    });
-
-}
