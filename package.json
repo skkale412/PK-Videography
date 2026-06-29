@@ -1,0 +1,24 @@
+{
+  "name": "pk-videography",
+  "version": "1.0.0",
+  "main": "admin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skkale412/PK-Videography.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/skkale412/PK-Videography/issues"
+  },
+  "homepage": "https://github.com/skkale412/PK-Videography#readme",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "razorpay": "^2.9.6"
+  }
+}

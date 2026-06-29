@@ -313,11 +313,69 @@ if (paidBtn) {
     paidBtn.style.display = "block";
 
 }
-        // Open UPI App
-       const upi =
-"upi://pay?pa=9934730101@ybl&pn=PARTH%20HANUMANT%20KALE&am=500&cu=INR";
+        // Create Razorpay Order
 
-        window.location.href = upi;
+const response = await fetch("/.netlify/functions/create-order", {
+
+    method: "POST",
+
+    headers: {
+
+        "Content-Type": "application/json"
+
+    },
+
+    body: JSON.stringify({
+
+        amount: 50000
+
+    })
+
+});
+
+const order = await response.json();
+
+const options = {
+
+    key: "rzp_test_T7UdCfrXuJyZcM",
+
+    amount: order.amount,
+
+    currency: order.currency,
+
+    name: "PK Videography",
+
+    description: "Advance Booking",
+
+    order_id: order.id,
+
+    handler: async function (response) {
+
+        alert("Payment Successful!");
+
+        window.open(url, "_blank");
+
+    },
+
+    prefill: {
+
+        name: booking.name,
+
+        contact: booking.mobile
+
+    },
+
+    theme: {
+
+        color: "#d4af37"
+
+    }
+
+};
+
+const razor = new Razorpay(options);
+
+razor.open();
 
     });
 
