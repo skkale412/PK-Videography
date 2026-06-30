@@ -370,7 +370,11 @@ Please confirm my booking.`;
 
     alert("Payment Successful!");
 
-    window.open(whatsappURL, "_blank");
+    const whatsappBtn = document.getElementById("whatsappBtn");
+
+whatsappBtn.href = whatsappURL;
+
+whatsappBtn.style.display = "inline-block";
 
 },
 
