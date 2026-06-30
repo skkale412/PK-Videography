@@ -320,7 +320,7 @@ const order = await response.json();
 
 const options = {
 
-    key: "rzp_test_T7UdCfrXuJyZcM",
+    key: "rzp_live_T7vaqGfKsiMmYT",
 
     amount: order.amount,
 
