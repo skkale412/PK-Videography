@@ -243,6 +243,8 @@ if (payNow) {
     payNow.addEventListener("click", async function (e) {
 
         e.preventDefault();
+        payNow.disabled = true;
+payNow.innerHTML = "⏳ Processing Payment...";
 
         const booking = {
 
@@ -268,22 +270,29 @@ if (!snapshot.empty) {
 
     alert("Sorry! This date is already booked.\nPlease choose another date.");
 
+    payNow.disabled = false;
+    payNow.innerHTML = "💳 Proceed to Payment";
+
     return;
 
 }
 
         // Validation
         if (
-            booking.name === "" ||
-            booking.location === "" ||
-            booking.mobile === "" ||
-            booking.event === ""
-        ) {
+    booking.name === "" ||
+    booking.location === "" ||
+    booking.mobile === "" ||
+    booking.event === ""
+) {
 
-            alert("Please fill all required details first.");
-            return;
+    alert("Please fill all required details first.");
 
-        }
+    payNow.disabled = false;
+    payNow.innerHTML = "💳 Proceed to Payment";
+
+    return;
+
+}
 
 // Save locally
 
@@ -312,7 +321,12 @@ const response = await fetch("/.netlify/functions/create-order", {
 });
 
 if (!response.ok) {
+
+    payNow.disabled = false;
+    payNow.innerHTML = "💳 Proceed to Payment";
+
     alert("Unable to create payment order.");
+
     return;
 }
 
@@ -396,7 +410,9 @@ modal: {
     ondismiss: function () {
 
         console.log("Payment cancelled");
-
+        
+        payNow.disabled = false;
+payNow.innerHTML = "💳 Proceed to Payment";
         alert("Payment cancelled. Your booking has not been saved.");
 
     }
@@ -404,6 +420,8 @@ modal: {
     
 };
 
+payNow.disabled = false;
+payNow.innerHTML = "💳 Proceed to Payment";
 const razor = new Razorpay(options);
 
 razor.on("payment.failed", function (response) {
@@ -423,3 +441,62 @@ razor.open();
 
 }
 
+// ================= LANGUAGE TRANSLATION =================
+
+const translations = {
+
+    en: {
+        home: "Home",
+        about: "About",
+        services: "Services",
+        contact: "Contact",
+
+        heroSubtitle: "WELCOME TO",
+        heroTitle: "Capture Every Moment Cinematically",
+        heroDescription: "Wedding • Pre Wedding • Events • Photography • Cinematic Films",
+        heroButton: "Book Your Shoot"
+    },
+
+    mr: {
+        home: "मुख्यपृष्ठ",
+        about: "आमच्याबद्दल",
+        services: "सेवा",
+        contact: "संपर्क",
+
+        heroSubtitle: "स्वागत आहे",
+        heroTitle: "तुमच्या प्रत्येक खास क्षणाला सिनेमॅटिक रूप द्या",
+        heroDescription: "लग्न • प्री-वेडिंग • कार्यक्रम • फोटोग्राफी • सिनेमॅटिक फिल्म्स",
+        heroButton: "तुमचे शूट बुक करा"
+    }
+
+};
+
+const languageSelect = document.getElementById("languageSelect");
+
+function changeLanguage(lang){
+
+    document.getElementById("navHome").textContent = translations[lang].home;
+    document.getElementById("navAbout").textContent = translations[lang].about;
+    document.getElementById("navServices").textContent = translations[lang].services;
+    document.getElementById("navContact").textContent = translations[lang].contact;
+
+    document.getElementById("heroSubtitle").textContent = translations[lang].heroSubtitle;
+    document.getElementById("heroTitle").textContent = translations[lang].heroTitle;
+    document.getElementById("heroDescription").textContent = translations[lang].heroDescription;
+    document.getElementById("heroButton").textContent = translations[lang].heroButton;
+
+    localStorage.setItem("language", lang);
+
+}
+
+const savedLanguage = localStorage.getItem("language") || "en";
+
+languageSelect.value = savedLanguage;
+
+changeLanguage(savedLanguage);
+
+languageSelect.addEventListener("change", function(){
+
+    changeLanguage(this.value);
+
+});

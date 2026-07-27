@@ -1375,3 +1375,61 @@ grid-column:1;
     color:#000;
 
 }
+
+/* ================= INSTAGRAM ================= */
+
+.instagram-btn{
+    position: fixed;
+    right: 25px;
+    bottom: 100px;     /* WhatsApp ke upar */
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(
+        45deg,
+        #f58529,
+        #feda77,
+        #dd2a7b,
+        #8134af,
+        #515bd4
+    );
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(0,0,0,.35);
+    z-index: 999;
+    transition: all .3s ease;
+}
+
+.instagram-btn:hover{
+    transform: scale(1.12);
+}
+
+/* ================= LANGUAGE SELECTOR ================= */
+
+.language-selector{
+    margin-left: 20px;
+}
+
+.language-selector select{
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+}
+
+.language-selector select:hover{
+    border-color: #FFD700;
+}
+
+.language-selector select option{
+    color: #000;
+}
