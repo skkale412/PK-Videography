@@ -257,25 +257,7 @@ payNow.innerHTML = "⏳ Processing Payment...";
 
         };
 
-        const bookingRef = collection(db, "bookings");
 
-const existingBooking = query(
-    bookingRef,
-    where("date", "==", booking.date)
-);
-
-const snapshot = await getDocs(existingBooking);
-
-if (!snapshot.empty) {
-
-    alert("Sorry! This date is already booked.\nPlease choose another date.");
-
-    payNow.disabled = false;
-    payNow.innerHTML = "💳 Proceed to Payment";
-
-    return;
-
-}
 
         // Validation
         if (
